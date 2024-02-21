@@ -4,8 +4,10 @@ const port = 8000;
 require("dotenv").config();
 const passport = require("passport");
 const User = require("./models/User");
+const cors = require("cors");
 const authRoutes = require("./routes/auth");
 app.use(express.json());
+app.use(cors());
  
 
 const mongoose = require("mongoose");

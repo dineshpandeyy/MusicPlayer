@@ -4,42 +4,41 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const {getToken} = require("../utils/helpers");
 
-// This POST route will help to register a user
 router.post("/register", async (req, res) => {
-    // This code is run when the /register api is called as a POST request
+    const { email, password, firstName, lastName, username } = req.body;
 
-    // My req.body will be of the format {email, password, firstName, lastName, username }
-    const {email, password, firstName, lastName, username} = req.body;
-
-    // Step 2 : Does a user with this email already exist? If yes, we throw an error.
-    const user = await User.findOne({email: email});
-    if (user) {
-        return res
-            .status(403)
-            .json({error: "A user with this email already exists"});
+    // Check if the password is provided
+    if (!password) {
+        return res.status(400).json({error: "Password is required"});
     }
-    // This is a valid request
 
-    // Step 3: Create a new user in the DB
-    // We do not store passwords in plain text so Hashed it
+    // Check if a user with this email already exists
+    const userExists = await User.findOne({ email: email });
+    if (userExists) {
+        return res.status(403).json({ error: "A user with this email already exists" });
+    }
+
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUserData = {
+
+    // Create a new user
+    const newUser = await User.create({
         email,
         password: hashedPassword,
         firstName,
         lastName,
         username,
-    };
-    const newUser = await User.create(newUserData);
-    console.log(newUserData);
+    });
 
-    // Step 4: We want to create the token to return to the user
+    // Generate a token for the new user
     const token = await getToken(email, newUser);
 
-    // Step 5: Return the result to the user
+    // Prepare the user object to return, excluding the password
     const userToReturn = {...newUser.toJSON(), token};
     console.log(userToReturn);
     delete userToReturn.password;
+
+    // Return the new user with the token to the client
     return res.status(200).json(userToReturn);
 });
 
