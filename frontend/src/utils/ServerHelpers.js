@@ -10,9 +10,9 @@ export const makeUnauthenticatedPOSTRequest = async (route, body) => {
             body: JSON.stringify(body),
         });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        // if (!response.ok) {
+        //     throw new Error(`HTTP error! status: ${response.status}`);
+        // }
 
         const formattedResponse = await response.json();
         return formattedResponse;
