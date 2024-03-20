@@ -2,12 +2,37 @@ import { Icon } from "@iconify/react";
 import spotify_logo from "../assets/images/spotify_logo_white.svg";
 import IconText from "../components/shared/IconText";
 import TextWithHover from "../components/shared/TextWithHover";
-import {useState} from "react";
+import { useState } from "react";
 import TextInput from "../components/shared/TextInput";
+import CloudinaryUpload from "../components/shared/CloudinaryUpload";
+import {useNavigate} from "react-router-dom";
+import {makeAuthenticatedPOSTRequest} from "../utils/ServerHelpers";
 
 const UploadSong = () => {
-    const [name, setName] = useState("");
-    const [thumbnail, setThumbnail] = useState("");
+  console.log(window)
+  console.log(window.cloudinary)
+  const [name, setName] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
+  const [playlistUrl, setPlaylistUrl] = useState("");
+  const [uploadedSongFileName, setUploadedSongFileName] = useState();
+  const navigate = useNavigate();
+
+  const submitSong = async () => {
+    const data = {name, thumbnail, track: playlistUrl};
+    const response = await makeAuthenticatedPOSTRequest(
+        "/song/create",
+        data
+    );
+    console.log(response)
+    // if (response.err) {
+    //     alert("Could not create song");
+    //     return;
+    // }
+    // alert("Success");
+    // navigate("/home");
+};
+
+
   return (
     <div className="h-full w-full bg-black flex">
       {/* This first div will be the left panel */}
@@ -92,6 +117,24 @@ const UploadSong = () => {
                 setValue={setThumbnail}
               />
             </div>
+          </div>
+          <div className="py-5">
+            {uploadedSongFileName ? (
+              <div className="bg-white rounded-full p-3 w-1/3">
+                {uploadedSongFileName.substring(0, 35)}...
+              </div>
+            ) : (
+              <CloudinaryUpload
+                setUrl={setPlaylistUrl}
+                setName={setUploadedSongFileName}
+              />
+            )}
+          </div>
+          <div
+            className="bg-white w-40 flex items-center justify-center p-4 rounded-full cursor-pointer font-semibold"
+            onClick={submitSong}
+          >
+            Submit Song
           </div>
         </div>
       </div>
