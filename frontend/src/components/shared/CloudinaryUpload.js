@@ -11,7 +11,7 @@ const CloudinaryUpload = ({setUrl, setName}) => {
             },
             function (error, result) {
                 if (!error && result.event === "success") {
-                    console.log(result)
+                    // console.log(result)
                     console.log(result.info)
                     setUrl(result.info.secure_url);                
                 } else {

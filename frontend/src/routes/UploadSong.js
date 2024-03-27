@@ -9,8 +9,8 @@ import {useNavigate} from "react-router-dom";
 import {makeAuthenticatedPOSTRequest} from "../utils/ServerHelpers";
 
 const UploadSong = () => {
-  console.log(window)
-  console.log(window.cloudinary)
+  // console.log(window)
+  // console.log(window.cloudinary)
   const [name, setName] = useState("");
   const [thumbnail, setThumbnail] = useState("");
   const [playlistUrl, setPlaylistUrl] = useState("");
@@ -23,7 +23,7 @@ const UploadSong = () => {
         "/song/create",
         data
     );
-    console.log(response)
+    // console.log(response)
     // if (response.err) {
     //     alert("Could not create song");
     //     return;

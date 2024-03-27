@@ -6,6 +6,7 @@ const passport = require("passport");
 const User = require("./models/User");
 const cors = require("cors");
 const authRoutes = require("./routes/auth");
+const songRoutes = require("./routes/song");
 app.use(express.json());
 app.use(cors());
  
@@ -58,6 +59,7 @@ app.get("/", (req,res) => {
 });
 
 app.use("/auth", authRoutes);
+app.use("/song", songRoutes);
 
 
 
