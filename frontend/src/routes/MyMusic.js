@@ -27,6 +27,7 @@ const MyMusic = () => {
   useEffect(() => {
     const getData = async () => {
       const response = await makeAuthenticatedGETRequest("/song/get/mysongs");
+      console.log(response);
       setSongData(response.data);
     };
     getData();
@@ -94,15 +95,15 @@ const MyMusic = () => {
             My Songs
           </div>
           <div className="space-y-3 overflow-auto">
+          {/* <SingleSongCard/>
           <SingleSongCard/>
           <SingleSongCard/>
           <SingleSongCard/>
-          <SingleSongCard/>
-          <SingleSongCard/>
+          <SingleSongCard/> */}
 
-            {/* {songData.map((item) => {
+            {songData.map((item) => {
               return <SingleSongCard info={item} playSound={playSound} />;
-            })} */}
+            })}
           </div>
         </div>
       </div>

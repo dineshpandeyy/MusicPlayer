@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-const Song = require("../models/Songs");
+const Song = require("../models/Song");
 const User = require("../models/User");
 
 router.post(
     "/create",
     passport.authenticate("jwt", {session: false}),
     async (req, res) => {
+        console.log("here");
         // req.user getss the user because of passport.authenticate
         const {name, thumbnail, track} = req.body;
         if (!name || !thumbnail || !track) {
@@ -15,6 +16,9 @@ router.post(
                 .status(301)
                 .json({err: "Insufficient details to create song."});
         }
+        console.log("here");
+    
+
         const artist = req.user._id;
         const songDetails = {name, thumbnail, track, artist};
         const createdSong = await Song.create(songDetails);
@@ -28,10 +32,12 @@ router.get(
     passport.authenticate("jwt", {session: false}),
     async (req, res) => {
         // We need to get all songs where artist id == currentUser._id
-        const songs = await Song.find({artist: req.user._id}).populate(
-            "artist"
-        );
+        const songs = await Song.find({artist: req.user._id});
         return res.status(200).json({data: songs});
+        // const songs = await Song.find({artist: req.user._id}).populate(
+        //     "artist"
+        // );
+        // return res.status(200).json({data: songs});
     }
 );
 

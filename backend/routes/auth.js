@@ -6,6 +6,7 @@ const {getToken} = require("../utils/helpers");
 
 router.post("/register", async (req, res) => {
     const { email, password, firstName, lastName, username } = req.body;
+    console.log("nfjbhbhfbh")
 
     // Check if the password is provided
     if (!password) {
@@ -52,7 +53,7 @@ router.post("/login", async (req, res) => {
         return res.status(403).json({err: "Invalid credentials"});
     }
 
-    console.log(user);
+    console.log("I'm here");
 
     // Step 3: If the user exists, check if the password is correct. If not, the credentials are invalid.
     // This is a tricky step. Why? Because we have stored the original password in a hashed form, which we cannot use to get back the password.
